@@ -1,1 +1,22 @@
 <h1>Yelp all restraurants</h1>
+<p><%= link_to "add a new restaurant", new_restaurant_path, class: "btn btn-primary"%></p>
+
+<ul style="list-style-type: none;">
+  <% @restaurants.each do |restaurant|%>
+    <li>
+      <%= link_to restaurant.name, restaurant_path(restaurant), class: "btn btn-primary" %>
+      <% if restaurant.reviews.any? %>
+        <% total_rating = restaurant.reviews.sum(:rating) %>
+        <% average_rating = total_rating.to_f / restaurant.reviews.count %>
+        <p><strong>Average Rating:</strong> <%= average_rating.round(1) %></p>
+      <% else %>
+        <p>No ratings yet</p>
+      <% end %>
+      <% if restaurant.reviews.any? %>
+        <p><strong>Review:</strong> <%= restaurant.reviews.first.content %></p>
+      <% else %>
+        <p>No reviews yet</p>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

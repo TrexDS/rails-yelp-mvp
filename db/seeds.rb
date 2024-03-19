@@ -7,3 +7,24 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require "faker"
+
+puts "Creating fake restaurants"
+5.times do
+  restaurant = Restaurant.create!(
+    name: Faker::Company.name,
+    address: Faker::Address.street_address,
+    phone_number: Faker::PhoneNumber.phone_number,
+    category: %w[chinese italian japanese french belgian].sample
+  )
+
+  3.times do
+    review = Review.create!(
+      content: Faker::Restaurant.review,
+      rating: rand(0..5),
+      restaurant: restaurant
+    )
+  end
+
+  puts "Created #{restaurant.name}, a #{restaurant.category} restaurant."
+end
